@@ -3,13 +3,23 @@ package com.ddmeng.example
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.ddmeng.example.ui.theme.AndroidComposeHelloWorldTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,20 +30,52 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AndroidComposeHelloWorldTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    val viewModel: MainViewModel = viewModel()
-                    val state = viewModel.text.collectAsState()
-                    Greeting(state.value)
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "friendslist") {
+                    composable("friendslist") {
+                        val viewModel = hiltViewModel<MainViewModel>()
+                        FriendsList(viewModel = viewModel, navHostController = navController)
+                    }
+                    composable("profile") { Profile(/*...*/) }
                 }
             }
         }
     }
+
 }
 
 @Composable
 fun Greeting(name: String) {
     Text(text = "Hello $name!")
+}
+
+@Composable
+private fun Profile() {
+    Text(text = "Profile")
+}
+
+@Composable
+private fun FriendsList(viewModel: MainViewModel, navHostController: NavHostController) {
+    val state by viewModel.collectAsState()
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp)
+    ) {
+        items(
+            state.friends
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clickable {
+                        navHostController.navigate("profile")
+                    },
+                text = "Friend id: ${it.id}, name: ${it.name}",
+            )
+        }
+    }
+
+
 }
 
 @Preview(showBackground = true)
