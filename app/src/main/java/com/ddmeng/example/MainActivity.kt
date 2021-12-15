@@ -42,7 +42,11 @@ class MainActivity : ComponentActivity() {
                         FriendsList(viewModel = viewModel, navHostController = navController)
                     }
                     composable(
-                        "profile"
+                        "profile/{userId}/{userName}",
+                        arguments = listOf(
+                            navArgument("userId") { type = NavType.IntType },
+                            navArgument("userName") { type = NavType.StringType }
+                        )
                     ) { backStackEntry ->
                         val viewModel = hiltViewModel<ProfileViewModel>()
                         Profile(
@@ -79,11 +83,7 @@ private fun FriendsList(viewModel: MainViewModel, navHostController: NavHostCont
                 modifier = Modifier
                     .padding(8.dp)
                     .clickable {
-                        navHostController.currentBackStackEntry?.arguments = Bundle().apply {
-                            putInt("userId", it.id)
-                            putString("userName", it.name)
-                        }
-                        navHostController.navigate("profile")
+                        navHostController.navigate("profile/${it.id}/${it.name}")
                     },
                 text = "Friend id: ${it.id}, name: ${it.name}",
             )
