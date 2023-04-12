@@ -20,6 +20,8 @@ dependencies {
     implementation (libs.androidx.core.ktx)
     implementation (libs.androidx.appcompat)
     implementation (libs.bundles.androidx.compose)
+    implementation (libs.androidx.compose.material3)
+    implementation(libs.google.android.material)
     implementation (libs.androidx.activity.compose)
     implementation (libs.androidx.lifecycle.viewModelCompose)
     implementation (libs.androidx.navigation.compose)

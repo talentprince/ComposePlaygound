@@ -5,18 +5,21 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 class ApplicationConfig : Plugin<Project> {
+    val javaVersion = JavaVersion.VERSION_17
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
                 //common plugins
             }
             extensions.configure<ApplicationExtension> {
-                compileSdk = 33
+//                compileSdk = 33
+                compileSdkPreview = "UpsideDownCake"
                 buildToolsVersion = "33.0.1"
                 defaultConfig.apply {
                     targetSdk = 33
@@ -27,8 +30,9 @@ class ApplicationConfig : Plugin<Project> {
                     }
                 }
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_18
-                    targetCompatibility = JavaVersion.VERSION_18
+                    isCoreLibraryDesugaringEnabled = true
+                    sourceCompatibility = javaVersion
+                    targetCompatibility = javaVersion
                 }
 
                 buildTypes {
@@ -46,18 +50,23 @@ class ApplicationConfig : Plugin<Project> {
                     compose = true
                 }
                 composeOptions {
-                    kotlinCompilerExtensionVersion = "1.3.0"
+                    kotlinCompilerExtensionVersion = "1.4.4"
                 }
                 packaging {
-                    resources.excludes.addAll(listOf(
-                        "META-INF/AL2.0",
-                        "META-INF/LGPL2.1"
-                    ))
+                    resources.excludes.addAll(
+                        listOf(
+                            "META-INF/AL2.0",
+                            "META-INF/LGPL2.1"
+                        )
+                    )
+                }
+                dependencies {
+                    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
                 }
             }
             tasks.withType<KotlinCompile<KotlinJvmOptions>> {
                 kotlinOptions {
-                    jvmTarget = JavaVersion.VERSION_18.toString()
+                    jvmTarget = javaVersion.toString()
                 }
             }
         }
