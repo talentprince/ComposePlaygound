@@ -1,5 +1,11 @@
 [versions]
 androidGradlePlugin = "8.1.0-alpha11"
+#androidGradlePlugin = "7.4.2"
+compileVersion = "33"
+compileVersionPreview = "UpsideDownCake"
+androidTarget = "33"
+androidMinSdk = "29"
+androidBuildTool = "33.0.1"
 androidxActivity = "1.7.0"
 androidxAppCompat = "1.6.1"
 androidxCompose = "1.4.1"
@@ -12,8 +18,11 @@ androidxCore = "1.10.0"
 androidxLifecycle = "2.6.1"
 androidxNavigation = "2.5.0"
 kotlin = "1.8.10"
+#kotlinGradle = "1.7.10"
+kotlinGradle = "1.8.10"
 kotlinxCoroutines = "1.6.4"
 kotlinxSerializationJson = "1.4.1"
+kotlinCompilerExtension = "1.4.4"
 ktlint = "0.43.0"
 hilt = "2.45"
 hilt-navigation = "1.1.0-alpha01"
@@ -41,16 +50,18 @@ androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "li
 google-android-material = { module = "com.google.android.material:material", version.ref = "googleMaterial" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlin-std = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin"}
 kotlinpoet = "com.squreup:kotlinpoet:1.12.0"
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation"}
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt"}
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt"}
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt"}
 junit = "junit:junit:4.13.2"
+desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradle" }
 
 [bundles]
 androidx-compose = [
@@ -64,7 +75,7 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradle" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

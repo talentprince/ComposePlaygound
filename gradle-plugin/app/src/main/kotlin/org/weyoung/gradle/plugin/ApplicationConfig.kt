@@ -9,6 +9,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import org.weyoung.gradle.plugin.dsl.libs
 
 class ApplicationConfig : Plugin<Project> {
     val javaVersion = JavaVersion.VERSION_17
@@ -18,12 +19,12 @@ class ApplicationConfig : Plugin<Project> {
                 //common plugins
             }
             extensions.configure<ApplicationExtension> {
-//                compileSdk = 33
-                compileSdkPreview = "UpsideDownCake"
-                buildToolsVersion = "33.0.1"
+//                compileSdk = libs.versions.compileVersion.get().toInt()
+                compileSdkPreview = libs.versions.compileVersionPreview.get()
+                buildToolsVersion = libs.versions.androidBuildTool.get()
                 defaultConfig.apply {
-                    targetSdk = 33
-                    minSdk = 29
+                    targetSdk = libs.versions.androidTarget.get().toInt()
+                    minSdk = libs.versions.androidMinSdk.get().toInt()
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                     vectorDrawables {
                         useSupportLibrary = true
@@ -50,7 +51,7 @@ class ApplicationConfig : Plugin<Project> {
                     compose = true
                 }
                 composeOptions {
-                    kotlinCompilerExtensionVersion = "1.4.4"
+                    kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
                 }
                 packaging {
                     resources.excludes.addAll(
@@ -61,7 +62,8 @@ class ApplicationConfig : Plugin<Project> {
                     )
                 }
                 dependencies {
-                    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+                    coreLibraryDesugaring(libs.desugar)
+                    implementation(libs.kotlin.std)
                 }
             }
             tasks.withType<KotlinCompile<KotlinJvmOptions>> {

@@ -1,7 +1,5 @@
 plugins {
     `kotlin-dsl`
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kotlin.jvm)
 }
 
 gradlePlugin {
@@ -18,9 +16,7 @@ gradlePlugin {
 
 dependencies {
     implementation(gradleApi())
-//    implementation(libs.plugins.android.application)
     implementation(libs.android.gradlePlugin)
-    implementation(libs.kotlin.gradlePlugin)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-
+    compileOnly(libs.kotlin.gradlePlugin)
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
