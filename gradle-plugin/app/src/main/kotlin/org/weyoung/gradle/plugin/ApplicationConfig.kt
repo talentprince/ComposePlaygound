@@ -12,11 +12,15 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.weyoung.gradle.plugin.dsl.libs
 
 class ApplicationConfig : Plugin<Project> {
-    val javaVersion = JavaVersion.VERSION_17
+    val javaVersion = JavaVersion.VERSION_18
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
                 //common plugins
+                apply("com.android.application")
+                apply("org.jetbrains.kotlin.android")
+                apply("com.google.dagger.hilt.android")
+                apply("org.jetbrains.kotlin.kapt")
             }
             extensions.configure<ApplicationExtension> {
 //                compileSdk = libs.versions.compileVersion.get().toInt()

@@ -4,9 +4,11 @@ plugins {
 
 version = "1.0.0"
 
+val jdkVersion = JavaVersion.VERSION_18
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = jdkVersion
+    targetCompatibility = jdkVersion
 }
 
 sourceSets {
